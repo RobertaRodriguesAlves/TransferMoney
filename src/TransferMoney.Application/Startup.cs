@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using TransferMoney.Domain.Interfaces;
+using TransferMoney.Service.Services;
 
 namespace TransferMoney.Application
 {
@@ -25,6 +27,7 @@ namespace TransferMoney.Application
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TransferMoney.Application", Version = "v1" });
             });
+            services.AddTransient<IAccountInformationService, AccountInformationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
