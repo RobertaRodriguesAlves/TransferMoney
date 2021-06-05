@@ -3,8 +3,8 @@ using TransferMoney.Domain.DTO;
 
 namespace TransferMoney.Domain.Interfaces
 {
-    public interface IAccountInformationService
+    public interface ITransferMoneyProducerKafka
     {
-        Task<bool> GetAccountInformation(TransferDto transferDto);
+        Task StartAsync(TransferDto transfer);
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using TransferMoney.Domain.DTO;
+using TransferMoney.Domain.Interfaces;
 
 namespace TransferMoney.Application.Controllers
 {
@@ -12,8 +13,14 @@ namespace TransferMoney.Application.Controllers
     public class fund_transferController : ControllerBase
     {
         private readonly ILogger<fund_transferController> _logger;
+        private readonly IFundTransferService _fundTransferService;
 
-        public fund_transferController(ILogger<fund_transferController> logger) => _logger = logger;
+        public fund_transferController(ILogger<fund_transferController> logger,
+                                        IFundTransferService fundTransferService)
+        {
+            _logger = logger;
+            _fundTransferService = fundTransferService;
+        }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] TransferDto transfer)
@@ -23,8 +30,7 @@ namespace TransferMoney.Application.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-
-
+                var result = _fundTransferService.Post(transfer);
             }
             catch (ArgumentException ex)
             {

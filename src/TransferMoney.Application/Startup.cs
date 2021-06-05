@@ -28,6 +28,7 @@ namespace TransferMoney.Application
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TransferMoney.Application", Version = "v1" });
             });
             services.AddTransient<IAccountInformationService, AccountInformationService>();
+            services.AddTransient<IFundTransferService, FundTransferService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
