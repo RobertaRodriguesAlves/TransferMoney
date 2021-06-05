@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransferMoney.Application",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransferMoney.Domain", "TransferMoney.Domain\TransferMoney.Domain.csproj", "{B99E565A-C922-4A7C-8EC8-EA14C19AA85B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferMoney.Service", "Transfermoney.Service\TransferMoney.Service.csproj", "{F4D6FE2A-D072-44CF-8F1D-4609A21DCA3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransferMoney.Service", "Transfermoney.Service\TransferMoney.Service.csproj", "{F4D6FE2A-D072-44CF-8F1D-4609A21DCA3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferMoney.Data", "TransferMoney.Data\TransferMoney.Data.csproj", "{27C0514B-251B-48F8-ADE6-CA5014999554}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,18 @@ Global
 		{F4D6FE2A-D072-44CF-8F1D-4609A21DCA3F}.Release|x64.Build.0 = Release|Any CPU
 		{F4D6FE2A-D072-44CF-8F1D-4609A21DCA3F}.Release|x86.ActiveCfg = Release|Any CPU
 		{F4D6FE2A-D072-44CF-8F1D-4609A21DCA3F}.Release|x86.Build.0 = Release|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Debug|x64.Build.0 = Debug|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Debug|x86.Build.0 = Debug|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Release|x64.ActiveCfg = Release|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Release|x64.Build.0 = Release|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Release|x86.ActiveCfg = Release|Any CPU
+		{27C0514B-251B-48F8-ADE6-CA5014999554}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
