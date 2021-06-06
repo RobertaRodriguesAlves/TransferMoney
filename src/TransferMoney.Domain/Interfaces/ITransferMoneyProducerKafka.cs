@@ -6,6 +6,6 @@ namespace TransferMoney.Domain.Interfaces
 {
     public interface ITransferMoneyProducerKafka
     {
-        Task StartAsync(TransferEntity transfer);
+        Task SendMessageToKafka(TransferEntity transfer);
     }
 }

@@ -25,7 +25,7 @@ namespace TransferMoney.Service.Services
                 .Build();
         }
 
-        public async Task StartAsync(TransferEntity transfer)
+        public async Task SendMessageToKafka(TransferEntity transfer)
         {
             try
             {

@@ -13,46 +13,52 @@ namespace TransferMoney.Service.Services
 {
     public class AccountInformationService : IAccountInformationService
     {
-        public async Task<ResponseDto> GetAccountInformation(TransferEntity transfer)
+        public async Task<FullResponseDto> GetAccountInformation(TransferEntity transfer)
         {
-            var responseDto = new ResponseDto();
+            var fullresponse = new FullResponseDto();
 
             try
             {
                 var accountOrigin = await ChecksIfAccountExists(transfer.AccountOrigin);
                 if (accountOrigin.accountNumber == null)
                 {
-                    responseDto.Status = "Error";
-                    responseDto.Message = "AccountOrigin doesn't exist";
-                    return responseDto;
+                    fullresponse.Status = "Error";
+                    fullresponse.Message = "AccountOrigin doesn't exist";
+                    return fullresponse;
                 }
 
                 var accountDestination = await ChecksIfAccountExists(transfer.AccountDestination);
                 if (accountDestination.accountNumber == null)
                 {
-                    responseDto.Status = "Error";
-                    responseDto.Message = "AccountDestination doesn't exist";
-                    return responseDto;
+                    fullresponse.Status = "Error";
+                    fullresponse.Message = "AccountDestination doesn't exist";
+                    return fullresponse;
                 }
 
                 if (CheckTheBalance(accountOrigin.balance, transfer.Value))
                 {
                     MakesCreditAndDebitOperation(transfer);
-                    responseDto.Status = "Confirmed";
+                    fullresponse.Status = "Confirmed";
+                }
+                else
+                {
+                    fullresponse.Status = "Error";
+                    fullresponse.Message = "AccountOrigin doesn't have enough money";
+                    return fullresponse;
                 }
             }
             catch (Exception ex)
             {
-                responseDto.Status = "Error";
-                responseDto.Message = ex.Message;
+                fullresponse.Status = "Error";
+                fullresponse.Message = ex.Message;
             }
 
-            return responseDto;
+            return fullresponse;
         }
 
         private static void MakesCreditAndDebitOperation(TransferEntity transfer)
         {
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 2; i++)
             {
                 OperationDto operation = FillObjectToSerialize(transfer, i);
                 string requestUri = "https://acessoaccount.herokuapp.com/api/Account";

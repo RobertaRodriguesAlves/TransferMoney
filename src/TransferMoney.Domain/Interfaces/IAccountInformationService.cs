@@ -6,6 +6,6 @@ namespace TransferMoney.Domain.Interfaces
 {
     public interface IAccountInformationService
     {
-        Task<ResponseDto> GetAccountInformation(TransferEntity transferDto);
+        Task<FullResponseDto> GetAccountInformation(TransferEntity transferDto);
     }
 }

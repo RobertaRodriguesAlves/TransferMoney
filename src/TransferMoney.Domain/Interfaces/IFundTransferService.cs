@@ -7,6 +7,6 @@ namespace TransferMoney.Domain.Interfaces
     public interface IFundTransferService
     {
         string Post(TransferDto transfer);
-        Task<ResponseDto> Get(string transactionId);
+        Task<object> Get(string transactionId);
     }
 }

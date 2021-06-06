@@ -44,7 +44,7 @@ namespace TranferMoney.KafkaConsumerApplication
                 {
                     var messageReceived = _consumer.Consume();
                     var transferInformation = JsonConvert.DeserializeObject<TransferEntity>(messageReceived.Message.Value);
-                    _logger.LogInformation($"Message received: {messageReceived} | Offset: {messageReceived.Offset}");
+                    _logger.LogInformation($"Message received: {messageReceived.Message.Value} | Offset: {messageReceived.Offset}");
                     _logger.LogInformation($"Getting information of the transaction");
                     var result = await _service.GetAccountInformation(transferInformation);
                     transferInformation.Status = result.Status;

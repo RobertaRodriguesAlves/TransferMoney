@@ -52,7 +52,6 @@ namespace TransferMoney.Data.Repository
                 _logger.LogError($"Exceção: {ex.GetType().FullName} | Mensagem: {ex.Message}");
                 throw;
             }
-        
         }
     }
 }
