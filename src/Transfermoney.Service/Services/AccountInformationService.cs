@@ -37,8 +37,7 @@ namespace TransferMoney.Service.Services
 
                 if (CheckTheBalance(accountOrigin.balance, transfer.Value))
                 {
-                    MakesCreditAndDebitOperation(transfer.AccountOrigin, transfer.Value, "Debit");
-                    MakesCreditAndDebitOperation(transfer.AccountDestination, transfer.Value, "Credit");
+                    MakesCreditAndDebitOperation(transfer);
                     responseDto.Status = "Confirmed";
                 }
             }
@@ -51,28 +50,46 @@ namespace TransferMoney.Service.Services
             return responseDto;
         }
 
-        private static void MakesCreditAndDebitOperation(string account, double value, string typeOfOperation)
+        private static void MakesCreditAndDebitOperation(TransferEntity transfer)
         {
-            OperationDto operation = FillObjectToSerialize(account, value, typeOfOperation);
-            string requestUri = "https://acessoaccount.herokuapp.com/api/Account";
-            HttpResponseMessage response;
-            string jsonBody = JsonConvert.SerializeObject(operation);
-            HttpContent body = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-            using (HttpClient client = new HttpClient())
+            for (int i = 0; i < 1; i++)
             {
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                response = client.PostAsync(requestUri, body).Result;
-            }
+                OperationDto operation = FillObjectToSerialize(transfer, i);
+                string requestUri = "https://acessoaccount.herokuapp.com/api/Account";
+                HttpResponseMessage response;
+                string jsonBody = JsonConvert.SerializeObject(operation);
+                HttpContent body = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    response = client.PostAsync(requestUri, body).Result;
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new Exception(response.Content.ReadAsStringAsync().Result);
+                    }
+                }
+            } 
         }
 
-        private static OperationDto FillObjectToSerialize(string account, double value, string typeOfOperation)
+        private static OperationDto FillObjectToSerialize(TransferEntity transfer, int i)
         {
+            if(i == 0)
+            {
+                return new OperationDto
+                {
+                    AccountNumber = transfer.AccountOrigin,
+                    Value = transfer.Value,
+                    Type = "Debit"
+                };
+            }
+
             return new OperationDto
             {
-                AccountNumber = account,
-                Value = value,
-                Type = typeOfOperation
+                AccountNumber = transfer.AccountDestination,
+                Value = transfer.Value,
+                Type = "Credit"
             };
         }
 

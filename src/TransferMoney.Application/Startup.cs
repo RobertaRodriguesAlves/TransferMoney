@@ -31,7 +31,6 @@ namespace TransferMoney.Application
             services.AddTransient<IAccountInformationService, AccountInformationService>();
             services.AddTransient<IFundTransferService, FundTransferService>();
             services.AddTransient<ITransferMoneyProducerKafka, TransferMoneyProducerKafka>();
-            //services.AddTransient<ITransferMoneyConsumerKafka, TransferMoneyConsumerKafka>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

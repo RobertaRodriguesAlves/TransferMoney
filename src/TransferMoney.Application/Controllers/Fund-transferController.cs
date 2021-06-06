@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using TransferMoney.Domain.DTO;
 using TransferMoney.Domain.Interfaces;
 
@@ -40,6 +41,25 @@ namespace TransferMoney.Application.Controllers
                 _logger.LogError(ex, ex.Message);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             } 
+        }
+
+        [HttpGet]
+        [Route("{transactionId}")]
+        public async Task<ActionResult> Get(string transactionId)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
+
+                var response = await _fundTransferService.Get(transactionId);
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }

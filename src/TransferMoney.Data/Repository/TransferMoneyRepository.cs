@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using TransferMoney.Data.Context;
+using TransferMoney.Domain.DTO;
 using TransferMoney.Domain.Entities;
 using TransferMoney.Domain.Interfaces.Repository;
 
@@ -24,7 +25,7 @@ namespace TransferMoney.Data.Repository
         {
             try
             {
-                _logger.LogInformation($"Inserting transfer: TransferId = {transfer.TransactionId}, " +
+                _logger.LogInformation($"Transfer's data: TransferId = {transfer.TransactionId}, " +
                     $"AccountOrigin = {transfer.AccountOrigin}, AccountDestination = {transfer.AccountDestination}, " +
                     $"Value = {transfer.Value}, StatusOfTheTransaction = {transfer.Status}, MessageAboutTheTransaction = {transfer.Message}");
                 _dataSet.Add(transfer);
@@ -37,6 +38,21 @@ namespace TransferMoney.Data.Repository
                 _logger.LogError($"Exceção: {ex.GetType().FullName} | Mensagem: {ex.Message}");
                 throw;
             }
+        }
+
+        public async Task<TransferEntity> GetStatus(string transactionId)
+        {
+            try
+            {
+                _logger.LogInformation($"Starting the searching for the transaction {transactionId} in the database");
+                return await _dataSet.FirstOrDefaultAsync(operation => operation.TransactionId.ToString().Trim().Equals(transactionId));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exceção: {ex.GetType().FullName} | Mensagem: {ex.Message}");
+                throw;
+            }
+        
         }
     }
 }
