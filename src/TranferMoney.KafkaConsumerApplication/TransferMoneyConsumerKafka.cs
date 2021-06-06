@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -8,9 +9,9 @@ using TransferMoney.Domain.Entities;
 using TransferMoney.Domain.Interfaces;
 using TransferMoney.Domain.Interfaces.Repository;
 
-namespace TransferMoney.Service.Services
+namespace TranferMoney.KafkaConsumerApplication
 {
-    public class TransferMoneyConsumerKafka : ITransferMoneyConsumerKafka
+    public class TransferMoneyConsumerKafka : ITransferMoneyConsumerKafka, IHostedService
     {
         private readonly ILogger<TransferMoneyConsumerKafka> _logger;
         private readonly IConsumer<Null, string> _consumer;
@@ -18,8 +19,7 @@ namespace TransferMoney.Service.Services
         private readonly ITransferMoneyRepository _repository;
 
         public TransferMoneyConsumerKafka(ILogger<TransferMoneyConsumerKafka> logger,
-                                             AccountInformationService service,
-                                             ITransferMoneyRepository repository)
+                                             IAccountInformationService service, ITransferMoneyRepository repository)
         {
             _logger = logger;
             _service = service;

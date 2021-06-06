@@ -12,7 +12,7 @@ namespace TransferMoney.CrossCutting.DependencyInjection
         {
             serviceCollection.AddDbContext<TransferMoneyDbContext>(
                    options =>
-                   options.UseMySql("Persist Security Info=True;Server=localhost;Port=3306;Database=dbMarketApi;Uid=root;Pwd=985206",
+                   options.UseMySql("Persist Security Info=True;Server=localhost;Port=3306;Database=TransferMoneyDb;Uid=root;Pwd=985206",
                            new MySqlServerVersion(new Version(8, 0, 21)),
                            mySqlOptions => mySqlOptions
                            .CharSetBehavior(CharSetBehavior.NeverAppend))

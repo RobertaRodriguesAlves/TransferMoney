@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransferMoney.Data", "Trans
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransferMoney.CrossCutting", "TransferMoney.CrossCutting\TransferMoney.CrossCutting.csproj", "{89587A67-1049-47C2-AFFF-C8909D400079}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferMoneyProducerKafka", "TransferMoneyProducerKafka\TransferMoneyProducerKafka.csproj", "{B1F3907B-13BB-4043-95FB-464054CDB8B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranferMoney.KafkaConsumerApplication", "TranferMoney.KafkaConsumerApplication\TranferMoney.KafkaConsumerApplication.csproj", "{0470621D-635F-4B08-BB78-7995E2C21443}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,18 +85,18 @@ Global
 		{89587A67-1049-47C2-AFFF-C8909D400079}.Release|x64.Build.0 = Release|Any CPU
 		{89587A67-1049-47C2-AFFF-C8909D400079}.Release|x86.ActiveCfg = Release|Any CPU
 		{89587A67-1049-47C2-AFFF-C8909D400079}.Release|x86.Build.0 = Release|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Debug|x64.Build.0 = Debug|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Debug|x86.Build.0 = Debug|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Release|x64.ActiveCfg = Release|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Release|x64.Build.0 = Release|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Release|x86.ActiveCfg = Release|Any CPU
-		{B1F3907B-13BB-4043-95FB-464054CDB8B8}.Release|x86.Build.0 = Release|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Debug|x64.Build.0 = Debug|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Debug|x86.Build.0 = Debug|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Release|x64.ActiveCfg = Release|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Release|x64.Build.0 = Release|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Release|x86.ActiveCfg = Release|Any CPU
+		{0470621D-635F-4B08-BB78-7995E2C21443}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

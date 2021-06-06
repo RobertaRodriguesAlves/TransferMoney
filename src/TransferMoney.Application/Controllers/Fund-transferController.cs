@@ -2,9 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
-using System.Threading.Tasks;
 using TransferMoney.Domain.DTO;
-using TransferMoney.Domain.Entities;
 using TransferMoney.Domain.Interfaces;
 
 namespace TransferMoney.Application.Controllers
@@ -24,22 +22,24 @@ namespace TransferMoney.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] TransferEntity transfer)
+        public ActionResult Post([FromBody] TransferDto transfer)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                var result = _fundTransferService.Post(transfer);
+                var transactionResult = new TransferDtoResult
+                {
+                    TransactionId = _fundTransferService.Post(transfer)
+                };
+                return Ok(transactionResult);
             }
             catch (ArgumentException ex)
             {
                 _logger.LogError(ex, ex.Message);
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
-
-            return Ok();
+            } 
         }
     }
 }
