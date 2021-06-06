@@ -12,8 +12,8 @@ namespace TransferMoney.Data.Migrations
                 columns: table => new
                 {
                     TransactionId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    AccountOrigin = table.Column<string>(type: "longtext", nullable: true),
-                    AccountDestination = table.Column<string>(type: "longtext", nullable: true),
+                    AccountOrigin = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
+                    AccountDestination = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
                     Value = table.Column<double>(type: "double", nullable: false),
                     Status = table.Column<string>(type: "longtext", nullable: true),
                     Message = table.Column<string>(type: "longtext", nullable: true)
@@ -22,6 +22,12 @@ namespace TransferMoney.Data.Migrations
                 {
                     table.PrimaryKey("PK_Transfers", x => x.TransactionId);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transfers_TransactionId",
+                table: "Transfers",
+                column: "TransactionId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

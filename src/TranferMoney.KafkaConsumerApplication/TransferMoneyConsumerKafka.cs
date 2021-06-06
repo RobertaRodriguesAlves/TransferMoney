@@ -37,16 +37,18 @@ namespace TranferMoney.KafkaConsumerApplication
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Listening the fund-transfer topic");
             _consumer.Subscribe("fund-transfer");
             try
             {
                 while (true)
                 {
                     var messageReceived = _consumer.Consume();
-                    var transferInformation = JsonConvert.DeserializeObject<TransferEntity>(messageReceived.Message.Value);
                     _logger.LogInformation($"Message received: {messageReceived.Message.Value} | Offset: {messageReceived.Offset}");
+                    _logger.LogInformation("Starting the deserialize TransferEntity object");
+                    var transferInformation = JsonConvert.DeserializeObject<TransferEntity>(messageReceived.Message.Value);
                     _logger.LogInformation($"Getting information of the transaction");
-                    var result = await _service.GetAccountInformation(transferInformation);
+                    var result = await _service.MakesAccountOperation(transferInformation);
                     transferInformation.Status = result.Status;
                     transferInformation.Message = result.Message;
                     _logger.LogInformation($"Saving message in the database");

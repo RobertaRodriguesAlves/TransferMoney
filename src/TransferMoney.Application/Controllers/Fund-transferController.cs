@@ -10,12 +10,12 @@ namespace TransferMoney.Application.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class fund_transferController : ControllerBase
+    public class Fund_transferController : ControllerBase
     {
-        private readonly ILogger<fund_transferController> _logger;
+        private readonly ILogger<Fund_transferController> _logger;
         private readonly IFundTransferService _fundTransferService;
 
-        public fund_transferController(ILogger<fund_transferController> logger,
+        public Fund_transferController(ILogger<Fund_transferController> logger,
                                         IFundTransferService fundTransferService)
         {
             _logger = logger;
@@ -34,6 +34,7 @@ namespace TransferMoney.Application.Controllers
                 {
                     TransactionId = _fundTransferService.Post(transfer)
                 };
+
                 return Ok(transactionResult);
             }
             catch (ArgumentException ex)

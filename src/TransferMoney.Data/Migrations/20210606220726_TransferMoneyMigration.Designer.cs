@@ -9,7 +9,7 @@ using TransferMoney.Data.Context;
 namespace TransferMoney.Data.Migrations
 {
     [DbContext(typeof(TransferMoneyDbContext))]
-    [Migration("20210606130705_TransferMoneyMigration")]
+    [Migration("20210606220726_TransferMoneyMigration")]
     partial class TransferMoneyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,10 +26,14 @@ namespace TransferMoney.Data.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("AccountDestination")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("varchar(8)");
 
                     b.Property<string>("AccountOrigin")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("varchar(8)");
 
                     b.Property<string>("Message")
                         .HasColumnType("longtext");
@@ -41,6 +45,9 @@ namespace TransferMoney.Data.Migrations
                         .HasColumnType("double");
 
                     b.HasKey("TransactionId");
+
+                    b.HasIndex("TransactionId")
+                        .IsUnique();
 
                     b.ToTable("Transfers");
                 });

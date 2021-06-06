@@ -23,14 +23,13 @@ namespace TransferMoney.Application
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureRepository.ConfigureDependenciesRepository(services);
+            ConfigureService.ConfigureDependenciesService(services);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TransferMoney.Application", Version = "v1" });
-            });
-            services.AddTransient<IAccountInformationService, AccountInformationService>();
-            services.AddTransient<IFundTransferService, FundTransferService>();
-            services.AddTransient<ITransferMoneyProducerKafka, TransferMoneyProducerKafka>();
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TransferMoney", Version = "v1" });
+            }); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +39,7 @@ namespace TransferMoney.Application
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TransferMoney.Application v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TransferMoney v1"));
             }
 
             app.UseHttpsRedirection();

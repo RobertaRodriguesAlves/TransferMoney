@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace TransferMoney.Domain.DTO
+﻿namespace TransferMoney.Domain.DTO
 {
     public class ResponseDto
     {

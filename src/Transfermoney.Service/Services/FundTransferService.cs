@@ -39,9 +39,9 @@ namespace TransferMoney.Service.Services
         {
             var transferEntity = new TransferEntity
             {
-                AccountOrigin = transfer.accountOrigin,
-                AccountDestination = transfer.accountDestination,
-                Value = transfer.value
+                AccountOrigin = transfer.AccountOrigin,
+                AccountDestination = transfer.AccountDestination,
+                Value = transfer.Value
             };
 
             transferEntity.TransactionId = Guid.NewGuid();

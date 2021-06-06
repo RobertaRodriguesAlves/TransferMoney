@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using TransferMoney.Data.Context;
-using TransferMoney.Domain.DTO;
 using TransferMoney.Domain.Entities;
 using TransferMoney.Domain.Interfaces.Repository;
 
@@ -25,9 +24,13 @@ namespace TransferMoney.Data.Repository
         {
             try
             {
-                _logger.LogInformation($"Transfer's data: TransferId = {transfer.TransactionId}, " +
-                    $"AccountOrigin = {transfer.AccountOrigin}, AccountDestination = {transfer.AccountDestination}, " +
-                    $"Value = {transfer.Value}, StatusOfTheTransaction = {transfer.Status}, MessageAboutTheTransaction = {transfer.Message}");
+                _logger.LogInformation(
+                    $"Transfer's data: TransferId = {transfer.TransactionId}, " +
+                    $"AccountOrigin = {transfer.AccountOrigin}, " +
+                    $"AccountDestination = {transfer.AccountDestination}, " +
+                    $"Value = {transfer.Value}, StatusOfTheTransaction = {transfer.Status}," +
+                    $" MessageAboutTheTransaction = {transfer.Message}");
+
                 _dataSet.Add(transfer);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation($"Data was inserted in the database");
@@ -35,7 +38,7 @@ namespace TransferMoney.Data.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exceção: {ex.GetType().FullName} | Mensagem: {ex.Message}");
+                _logger.LogError($"Exception: {ex.GetType().FullName} | Message: {ex.Message}");
                 throw;
             }
         }
@@ -49,7 +52,7 @@ namespace TransferMoney.Data.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exceção: {ex.GetType().FullName} | Mensagem: {ex.Message}");
+                _logger.LogError($"Exception: {ex.GetType().FullName} | Message: {ex.Message}");
                 throw;
             }
         }

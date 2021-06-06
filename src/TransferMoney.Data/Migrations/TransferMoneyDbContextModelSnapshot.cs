@@ -24,10 +24,14 @@ namespace TransferMoney.Data.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("AccountDestination")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("varchar(8)");
 
                     b.Property<string>("AccountOrigin")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("varchar(8)");
 
                     b.Property<string>("Message")
                         .HasColumnType("longtext");
@@ -39,6 +43,9 @@ namespace TransferMoney.Data.Migrations
                         .HasColumnType("double");
 
                     b.HasKey("TransactionId");
+
+                    b.HasIndex("TransactionId")
+                        .IsUnique();
 
                     b.ToTable("Transfers");
                 });

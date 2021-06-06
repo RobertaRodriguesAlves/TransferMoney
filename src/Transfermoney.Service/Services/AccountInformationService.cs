@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -13,37 +14,51 @@ namespace TransferMoney.Service.Services
 {
     public class AccountInformationService : IAccountInformationService
     {
-        public async Task<FullResponseDto> GetAccountInformation(TransferEntity transfer)
+        private readonly ILogger<AccountInformationService> _logger;
+        public AccountInformationService(ILogger<AccountInformationService> logger)
         {
+            _logger = logger;
+        }
+        public async Task<FullResponseDto> MakesAccountOperation(TransferEntity transfer)
+        {
+            _logger.LogInformation("Starting the accounts verification");
             var fullresponse = new FullResponseDto();
 
             try
             {
-                var accountOrigin = await ChecksIfAccountExists(transfer.AccountOrigin);
-                if (accountOrigin.accountNumber == null)
+                _logger.LogInformation("Checking if accountOrigin exists");
+                AccountDto accountOrigin = await ChecksIfAccountExists(transfer.AccountOrigin);
+                if (accountOrigin.AccountNumber == null)
                 {
                     fullresponse.Status = "Error";
                     fullresponse.Message = "AccountOrigin doesn't exist";
+                    _logger.LogError($"{fullresponse.Status} - {fullresponse.Message}");
                     return fullresponse;
                 }
 
-                var accountDestination = await ChecksIfAccountExists(transfer.AccountDestination);
-                if (accountDestination.accountNumber == null)
+                _logger.LogInformation("Checking if accountDestination exists");
+                AccountDto accountDestination = await ChecksIfAccountExists(transfer.AccountDestination);
+                if (accountDestination.AccountNumber == null)
                 {
                     fullresponse.Status = "Error";
                     fullresponse.Message = "AccountDestination doesn't exist";
+                    _logger.LogError($"{fullresponse.Status} - {fullresponse.Message}");
                     return fullresponse;
                 }
 
-                if (CheckTheBalance(accountOrigin.balance, transfer.Value))
+                _logger.LogInformation("Checking the balance of accountOrigin");
+                if (ChecksTheBalance(accountOrigin.Balance, transfer.Value))
                 {
+                    _logger.LogInformation("Starting the transfer operation");
                     MakesCreditAndDebitOperation(transfer);
                     fullresponse.Status = "Confirmed";
+                    _logger.LogInformation($"Status of operation: {fullresponse.Status}");
                 }
                 else
                 {
                     fullresponse.Status = "Error";
                     fullresponse.Message = "AccountOrigin doesn't have enough money";
+                    _logger.LogError($"{fullresponse.Status} - {fullresponse.Message}");
                     return fullresponse;
                 }
             }
@@ -51,16 +66,18 @@ namespace TransferMoney.Service.Services
             {
                 fullresponse.Status = "Error";
                 fullresponse.Message = ex.Message;
+                _logger.LogError($"{fullresponse.Status} - {fullresponse.Message}");
             }
 
+            _logger.LogInformation("Finishing the accounts verification");
             return fullresponse;
         }
 
         private static void MakesCreditAndDebitOperation(TransferEntity transfer)
         {
-            for (int i = 0; i < 2; i++)
+            for (int count = 0; count < 2; count++)
             {
-                OperationDto operation = FillObjectToSerialize(transfer, i);
+                OperationDto operation = FillObjectToSerialize(transfer, count);
                 string requestUri = "https://acessoaccount.herokuapp.com/api/Account";
                 HttpResponseMessage response;
                 string jsonBody = JsonConvert.SerializeObject(operation);
@@ -79,9 +96,9 @@ namespace TransferMoney.Service.Services
             } 
         }
 
-        private static OperationDto FillObjectToSerialize(TransferEntity transfer, int i)
+        private static OperationDto FillObjectToSerialize(TransferEntity transfer, int count)
         {
-            if(i == 0)
+            if(count == 0)
             {
                 return new OperationDto
                 {
@@ -105,11 +122,11 @@ namespace TransferMoney.Service.Services
 
             HttpResponseMessage response = await httpClient.GetAsync($"https://acessoaccount.herokuapp.com/api/Account/{account}");
             string json = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<AccountDto>(json);
+            AccountDto result = JsonConvert.DeserializeObject<AccountDto>(json);
             return result;
         }
 
-        private static bool CheckTheBalance(double balance, double balanceOfTheTransfer)
+        private static bool ChecksTheBalance(double balance, double balanceOfTheTransfer)
         {
             return balance >= balanceOfTheTransfer;
         }

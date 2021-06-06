@@ -35,7 +35,7 @@ namespace TransferMoney.Service.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exceção: {ex.GetType().FullName} | Mensagem: {ex.Message}");
+                _logger.LogError($"Exception: {ex.GetType().FullName} | Message: {ex.Message}");
             }
         }
     }

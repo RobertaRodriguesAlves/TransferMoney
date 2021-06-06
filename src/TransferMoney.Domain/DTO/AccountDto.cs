@@ -3,7 +3,7 @@
     public class AccountDto
     {
         public int id { get; set; }
-        public string accountNumber { get; set; }
-        public double balance { get; set; }
+        public string AccountNumber { get; set; }
+        public double Balance { get; set; }
     }
 }
