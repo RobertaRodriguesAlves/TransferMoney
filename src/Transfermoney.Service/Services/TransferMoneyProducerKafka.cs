@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
-using TransferMoney.Domain.DTO;
 using TransferMoney.Domain.Entities;
 using TransferMoney.Domain.Interfaces;
 

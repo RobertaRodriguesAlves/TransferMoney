@@ -31,6 +31,7 @@ namespace TransferMoney.Data.Repository
                     $"Value = {transfer.Value}, StatusOfTheTransaction = {transfer.Status}," +
                     $" MessageAboutTheTransaction = {transfer.Message}");
 
+                transfer.CreatedAt = DateTime.UtcNow;
                 _dataSet.Add(transfer);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation($"Data was inserted in the database");

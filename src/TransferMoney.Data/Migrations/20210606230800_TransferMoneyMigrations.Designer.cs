@@ -9,8 +9,8 @@ using TransferMoney.Data.Context;
 namespace TransferMoney.Data.Migrations
 {
     [DbContext(typeof(TransferMoneyDbContext))]
-    [Migration("20210606220726_TransferMoneyMigration")]
-    partial class TransferMoneyMigration
+    [Migration("20210606230800_TransferMoneyMigrations")]
+    partial class TransferMoneyMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,9 @@ namespace TransferMoney.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Message")
                         .HasColumnType("longtext");

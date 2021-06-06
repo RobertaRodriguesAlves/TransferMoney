@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TransferMoney.Domain.DTO;
 using TransferMoney.Domain.Entities;
+using TransferMoney.Domain.Enums;
 using TransferMoney.Domain.Interfaces;
 
 namespace TransferMoney.Service.Services
@@ -98,7 +99,7 @@ namespace TransferMoney.Service.Services
 
         private static OperationDto FillObjectToSerialize(TransferEntity transfer, int count)
         {
-            if(count == 0)
+            if(count == (int)Operation.Debit)
             {
                 return new OperationDto
                 {

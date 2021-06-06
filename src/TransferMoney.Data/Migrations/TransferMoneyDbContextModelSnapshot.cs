@@ -33,6 +33,9 @@ namespace TransferMoney.Data.Migrations
                         .HasMaxLength(8)
                         .HasColumnType("varchar(8)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Message")
                         .HasColumnType("longtext");
 
