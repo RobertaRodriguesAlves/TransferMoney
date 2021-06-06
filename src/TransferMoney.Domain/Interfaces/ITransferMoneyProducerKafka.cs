@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using TransferMoney.Domain.DTO;
+using TransferMoney.Domain.Entities;
 
 namespace TransferMoney.Domain.Interfaces
 {
     public interface ITransferMoneyProducerKafka
     {
-        Task StartAsync(TransferDto transfer);
+        Task StartAsync(TransferEntity transfer);
     }
 }

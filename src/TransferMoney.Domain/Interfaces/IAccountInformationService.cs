@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using TransferMoney.Domain.DTO;
+using TransferMoney.Domain.Entities;
 
 namespace TransferMoney.Domain.Interfaces
 {
     public interface IAccountInformationService
     {
-        Task<bool> GetAccountInformation(TransferDto transferDto);
+        Task<ResponseDto> GetAccountInformation(TransferEntity transferDto);
     }
 }

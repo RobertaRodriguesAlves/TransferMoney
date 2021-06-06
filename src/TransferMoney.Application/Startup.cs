@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using TransferMoney.CrossCutting.DependencyInjection;
 using TransferMoney.Domain.Interfaces;
 using TransferMoney.Service.Services;
 
@@ -21,7 +22,7 @@ namespace TransferMoney.Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            ConfigureRepository.ConfigureDependenciesRepository(services);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -30,6 +31,7 @@ namespace TransferMoney.Application
             services.AddTransient<IAccountInformationService, AccountInformationService>();
             services.AddTransient<IFundTransferService, FundTransferService>();
             services.AddTransient<ITransferMoneyProducerKafka, TransferMoneyProducerKafka>();
+            //services.AddTransient<ITransferMoneyConsumerKafka, TransferMoneyConsumerKafka>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using TransferMoney.Domain.DTO;
+using TransferMoney.Domain.Entities;
 using TransferMoney.Domain.Interfaces;
 
 namespace TransferMoney.Application.Controllers
@@ -23,7 +24,7 @@ namespace TransferMoney.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] TransferDto transfer)
+        public async Task<ActionResult> Post([FromBody] TransferEntity transfer)
         {
             try
             {

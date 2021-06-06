@@ -1,0 +1,69 @@
+﻿using Confluent.Kafka;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using TransferMoney.Domain.Entities;
+using TransferMoney.Domain.Interfaces;
+using TransferMoney.Domain.Interfaces.Repository;
+
+namespace TransferMoney.Service.Services
+{
+    public class TransferMoneyConsumerKafka : ITransferMoneyConsumerKafka
+    {
+        private readonly ILogger<TransferMoneyConsumerKafka> _logger;
+        private readonly IConsumer<Null, string> _consumer;
+        private readonly IAccountInformationService _service;
+        private readonly ITransferMoneyRepository _repository;
+
+        public TransferMoneyConsumerKafka(ILogger<TransferMoneyConsumerKafka> logger,
+                                             AccountInformationService service,
+                                             ITransferMoneyRepository repository)
+        {
+            _logger = logger;
+            _service = service;
+            _repository = repository;
+
+            var config = new ConsumerConfig
+            {
+                BootstrapServers = "127.0.0.1:9092",
+                GroupId = nameof(TransferMoneyConsumerKafka),
+                AutoOffsetReset = AutoOffsetReset.Earliest
+            };
+
+            _consumer = new ConsumerBuilder<Null, string>(config).Build();
+        }
+
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            _consumer.Subscribe("fund-transfer");
+            try
+            {
+                while (true)
+                {
+                    var messageReceived = _consumer.Consume();
+                    var transferInformation = JsonConvert.DeserializeObject<TransferEntity>(messageReceived.Message.Value);
+                    _logger.LogInformation($"Message received: {messageReceived} | Offset: {messageReceived.Offset}");
+                    _logger.LogInformation($"Getting information of the transaction");
+                    var result = await _service.GetAccountInformation(transferInformation);
+                    transferInformation.Status = result.Status;
+                    transferInformation.Message = result.Message;
+                    _logger.LogInformation($"Saving message in the database");
+                    await _repository.InsertAsync(transferInformation);
+                    _logger.LogInformation($"Message was saved");
+                }
+            }
+            catch (Exception ex)
+            {
+                await StopAsync(cancellationToken);
+                _logger.LogError($"Exceção: {ex.GetType().FullName} | Mensagem: {ex.Message}");
+            }
+        }
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            _consumer?.Dispose();
+            return Task.CompletedTask;
+        }
+    }
+}
