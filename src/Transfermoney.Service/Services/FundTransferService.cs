@@ -21,8 +21,11 @@ namespace TransferMoney.Service.Services
 
         public async Task<object> Get(string transactionId)
         {
-            var transferEntity = await _repository.GetStatus(transactionId);
+            var transferEntity = await _repository.GetStatusAsync(transactionId);
             if (transferEntity == null)
+                return new ResponseDto().Status = "Not Found";
+
+            if (transferEntity.Status == null)
                 return new ResponseDto().Status = "In Queue";
             
             if (transferEntity.Message == null)
@@ -35,7 +38,7 @@ namespace TransferMoney.Service.Services
             };
         }
 
-        public string Post(TransferDto transfer)
+        public async Task<string> Post(TransferDto transfer)
         {
             var transferEntity = new TransferEntity
             {
@@ -45,8 +48,15 @@ namespace TransferMoney.Service.Services
             };
 
             transferEntity.TransactionId = Guid.NewGuid();
-            _transferMoneyProducerKafka.SendMessageToKafka(transferEntity);
+            await _repository.InsertAsync(transferEntity);
+            SendMessageToTopicKafka(transferEntity);
+
             return transferEntity.TransactionId.ToString();
+        }
+
+        private void SendMessageToTopicKafka(TransferEntity transferEntity)
+        {
+            _transferMoneyProducerKafka.SendMessageToKafka(transferEntity);
         }
     }
 }

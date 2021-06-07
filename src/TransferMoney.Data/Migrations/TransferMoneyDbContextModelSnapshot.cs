@@ -42,6 +42,9 @@ namespace TransferMoney.Data.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<double>("Value")
                         .HasColumnType("double");
 

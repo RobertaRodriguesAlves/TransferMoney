@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TransferMoney.Data.Migrations
 {
-    public partial class TransferMoneyMigrations : Migration
+    public partial class TransferMoneyMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,8 @@ namespace TransferMoney.Data.Migrations
                     Value = table.Column<double>(type: "double", nullable: false),
                     Status = table.Column<string>(type: "longtext", nullable: true),
                     Message = table.Column<string>(type: "longtext", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using TransferMoney.Domain.Entities;
 using TransferMoney.Domain.Interfaces;
+using TransferMoney.Domain.Interfaces.Repository;
 
 namespace TransferMoney.Service.Services
 {
@@ -35,6 +36,7 @@ namespace TransferMoney.Service.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Exception: {ex.GetType().FullName} | Message: {ex.Message}");
+                throw;
             }
         }
     }

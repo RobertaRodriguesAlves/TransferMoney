@@ -9,8 +9,8 @@ using TransferMoney.Data.Context;
 namespace TransferMoney.Data.Migrations
 {
     [DbContext(typeof(TransferMoneyDbContext))]
-    [Migration("20210606230800_TransferMoneyMigrations")]
-    partial class TransferMoneyMigrations
+    [Migration("20210607013746_TransferMoneyMigration")]
+    partial class TransferMoneyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,9 @@ namespace TransferMoney.Data.Migrations
 
                     b.Property<string>("Status")
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<double>("Value")
                         .HasColumnType("double");

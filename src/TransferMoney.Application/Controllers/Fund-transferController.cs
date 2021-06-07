@@ -23,7 +23,7 @@ namespace TransferMoney.Application.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] TransferDto transfer)
+        public async Task<ActionResult> Post([FromBody] TransferDto transfer)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace TransferMoney.Application.Controllers
 
                 var transactionResult = new TransferDtoResult
                 {
-                    TransactionId = _fundTransferService.Post(transfer)
+                    TransactionId = await _fundTransferService.Post(transfer)
                 };
 
                 return Ok(transactionResult);

@@ -44,16 +44,16 @@ namespace TranferMoney.KafkaConsumerApplication
                 while (true)
                 {
                     var messageReceived = _consumer.Consume();
-                    _logger.LogInformation($"Message received: {messageReceived.Message.Value} | Offset: {messageReceived.Offset}");
+                    _logger.LogInformation($"Transaction received: {messageReceived.Message.Value} | Offset: {messageReceived.Offset}");
                     _logger.LogInformation("Starting the deserialize TransferEntity object");
                     var transferInformation = JsonConvert.DeserializeObject<TransferEntity>(messageReceived.Message.Value);
                     _logger.LogInformation($"Getting information of the transaction");
                     var result = await _service.MakesAccountOperation(transferInformation);
                     transferInformation.Status = result.Status;
                     transferInformation.Message = result.Message;
-                    _logger.LogInformation($"Saving message in the database");
-                    await _repository.InsertAsync(transferInformation);
-                    _logger.LogInformation($"Message was saved");
+                    _logger.LogInformation($"Updating the information of transaction in the database");
+                    await _repository.UpdateTransactionInformationAsync(transferInformation);
+                    _logger.LogInformation($"Transaction was saved");
                 }
             }
             catch (Exception ex)
