@@ -55,7 +55,7 @@ namespace TransferMoney.Service.Services
 
             transferEntity.TransactionId = Guid.NewGuid();
 
-            _logger.LogInformation("Inserting the transfer in database");
+            _logger.LogInformation("Inserting the transfer in the database");
             await _repository.InsertAsync(transferEntity);
 
             _logger.LogInformation("Sending the transfer to kafka topic");

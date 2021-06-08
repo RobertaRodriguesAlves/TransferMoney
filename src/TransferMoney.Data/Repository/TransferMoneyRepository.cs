@@ -24,7 +24,7 @@ namespace TransferMoney.Data.Repository
         {
             try
             {
-                _logger.LogInformation($"Inserting the transactionId: {transfer.TransactionId} and date in the database");
+                _logger.LogInformation($"Inserting the transactionId: {transfer.TransactionId} in the database");
                 transfer.CreatedAt = DateTime.UtcNow;
                 _dataSet.Add(transfer);
                 await _context.SaveChangesAsync();
