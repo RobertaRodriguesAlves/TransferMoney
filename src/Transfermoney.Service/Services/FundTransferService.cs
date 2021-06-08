@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 using TransferMoney.Domain.DTO;
 using TransferMoney.Domain.Entities;
@@ -11,16 +12,20 @@ namespace TransferMoney.Service.Services
     {
         private readonly ITransferMoneyProducerKafka _transferMoneyProducerKafka;
         private readonly ITransferMoneyRepository _repository;
+        private readonly ILogger<FundTransferService> _logger;
 
         public FundTransferService(ITransferMoneyProducerKafka transferMoneyProducerKafka,
-                                    ITransferMoneyRepository repository)
+                                    ITransferMoneyRepository repository,
+                                    ILogger<FundTransferService> logger)
         {
             _transferMoneyProducerKafka = transferMoneyProducerKafka;
             _repository = repository;
+            _logger = logger;
         }
 
-        public async Task<object> Get(string transactionId)
+        public async Task<object> GetTransactionStatus(string transactionId)
         {
+            _logger.LogInformation($"Searching for {transactionId} in the database");
             var transferEntity = await _repository.GetStatusAsync(transactionId);
             if (transferEntity == null)
                 return new ResponseDto().Status = "Not Found";
@@ -40,6 +45,7 @@ namespace TransferMoney.Service.Services
 
         public async Task<string> Post(TransferDto transfer)
         {
+            _logger.LogInformation($"Starting the post of transfer between accounts");
             var transferEntity = new TransferEntity
             {
                 AccountOrigin = transfer.AccountOrigin,
@@ -48,9 +54,14 @@ namespace TransferMoney.Service.Services
             };
 
             transferEntity.TransactionId = Guid.NewGuid();
+
+            _logger.LogInformation("Inserting the transfer in database");
             await _repository.InsertAsync(transferEntity);
+
+            _logger.LogInformation("Sending the transfer to kafka topic");
             SendMessageToTopicKafka(transferEntity);
 
+            _logger.LogInformation("Finishing the transfer processing");
             return transferEntity.TransactionId.ToString();
         }
 

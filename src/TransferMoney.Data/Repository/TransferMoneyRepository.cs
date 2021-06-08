@@ -65,7 +65,7 @@ namespace TransferMoney.Data.Repository
                 var result = await _dataSet.SingleOrDefaultAsync(transaction => transaction.TransactionId.ToString().Equals(transfer.TransactionId.ToString()));
                 if (result == null)
                 {
-                    _logger.LogError($"The transactionId: {transfer.TransactionId} doesn't exists in the database");
+                    _logger.LogWarning($"The transactionId: {transfer.TransactionId} doesn't exists in the database");
                     return false;
                 }
                    
@@ -76,6 +76,7 @@ namespace TransferMoney.Data.Repository
                 transfer.UpdatedAt = DateTime.UtcNow;
                 _context.Entry(result).CurrentValues.SetValues(transfer);
                 await _context.SaveChangesAsync();
+                _logger.LogInformation("The transfer was updated");
                 return true;
             }
             catch (Exception ex)

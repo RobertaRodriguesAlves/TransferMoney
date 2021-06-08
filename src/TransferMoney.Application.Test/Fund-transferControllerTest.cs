@@ -23,7 +23,7 @@ namespace TransferMoney.Application.Test
         }
 
         [Fact]
-        public void WhenTheModelStateIsInvalid_ThePostMethodShouldRespondWithBadRequest()
+        public async Task WhenTheModelStateIsInvalid_ThePostMethodShouldRespondWithBadRequest()
         {
             var transfer = new TransferDto
             {
@@ -33,14 +33,14 @@ namespace TransferMoney.Application.Test
 
             _transferController.ModelState.AddModelError("AccountOrigin", "Account origin is required");
 
-            var transferControllerPostMethodResult = _transferController.Post(transfer);
+            var transferControllerPostMethodResult = await _transferController.Post(transfer);
             Assert.True(transferControllerPostMethodResult is BadRequestResult);
         }
 
         [Fact]
-        public void WhenAValidObjectIsPassed_ThePostMethodShouldResponseWithOk()
+        public async Task WhenAValidObjectIsPassed_ThePostMethodShouldResponseWithOk()
         {
-            _serviceMock.Setup(config => config.Post(It.IsAny<TransferDto>())).Returns(Guid.NewGuid().ToString());
+            _serviceMock.Setup(config => config.Post(It.IsAny<TransferDto>())).ReturnsAsync(Guid.NewGuid().ToString());
             var transfer = new TransferDto
             {
                 AccountDestination = "54325432",
@@ -48,7 +48,7 @@ namespace TransferMoney.Application.Test
                 Value = 434432
             };
 
-            var transferControllerPostMethodResult = _transferController.Post(transfer);
+            var transferControllerPostMethodResult = await _transferController.Post(transfer);
 
             Assert.IsType<OkObjectResult>(transferControllerPostMethodResult);
         }
@@ -56,7 +56,7 @@ namespace TransferMoney.Application.Test
         [Fact]
         public async Task WhenAValidTransactionIdIsPassed_TheGetMethodShouldRespondWithOK()
         {
-            _serviceMock.Setup(config => config.Get(It.IsAny<string>())).ReturnsAsync(new FullResponseDto
+            _serviceMock.Setup(config => config.GetTransactionStatus(It.IsAny<string>())).ReturnsAsync(new FullResponseDto
             {
                 Status = "Error",
                 Message = "AccountOrigin doesn't exist"
@@ -69,13 +69,16 @@ namespace TransferMoney.Application.Test
         }
 
         [Fact]
-        public void WhenTheModelStateIsInvalid_TheGetMethodShouldRespondWithBadRequest()
+        public async Task WhenTheTransactionIdIsInvalid_TheGetMethodShouldRespondWithOkResult()
         {
-            //_transferController.ModelState.AddModelError("TransactionId", "Account origin is required");
+            _serviceMock.Setup(config => config.GetTransactionStatus(It.IsAny<string>())).ReturnsAsync(new ResponseDto
+            {
+                Status = "Not Found"
+            });
+            var transactionId = "Banana";
 
-            //var transferControllerPostMethodResult = _transferController.Post(transfer);
-            //Assert.True(transferControllerPostMethodResult is BadRequestResult);
+            var transferControllerPostMethodResult = await _transferController.Get(transactionId);
+            Assert.True(transferControllerPostMethodResult is OkObjectResult);
         }
-
     }
 }

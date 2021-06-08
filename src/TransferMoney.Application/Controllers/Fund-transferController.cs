@@ -27,14 +27,18 @@ namespace TransferMoney.Application.Controllers
         {
             try
             {
+                _logger.LogInformation("Validating the model state of the transfer");
                 if (!ModelState.IsValid)
                     return BadRequest();
+
+                _logger.LogInformation($"Starting the transfer requisition between: {transfer.AccountOrigin} and {transfer.AccountDestination}");
 
                 var transactionResult = new TransferDtoResult
                 {
                     TransactionId = await _fundTransferService.Post(transfer)
                 };
 
+                _logger.LogInformation("Finishing the transfer requisition");
                 return Ok(transactionResult);
             }
             catch (ArgumentException ex)
@@ -50,10 +54,13 @@ namespace TransferMoney.Application.Controllers
         {
             try
             {
+                _logger.LogInformation("Validating the model state of the transactionId");
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                var response = await _fundTransferService.Get(transactionId);
+                _logger.LogInformation($"Starting the search for the {transactionId} in the database");
+                var response = await _fundTransferService.GetTransactionStatus(transactionId);
+                _logger.LogInformation("Finishing the search");
                 return Ok(response);
             }
             catch (ArgumentException ex)

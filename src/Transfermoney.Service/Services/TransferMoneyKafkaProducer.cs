@@ -5,15 +5,14 @@ using System;
 using System.Threading.Tasks;
 using TransferMoney.Domain.Entities;
 using TransferMoney.Domain.Interfaces;
-using TransferMoney.Domain.Interfaces.Repository;
 
 namespace TransferMoney.Service.Services
 {
-    public class TransferMoneyProducerKafka : ITransferMoneyProducerKafka
+    public class TransferMoneyKafkaProducer : ITransferMoneyProducerKafka
     {
-        private readonly ILogger<TransferMoneyProducerKafka> _logger;
+        private readonly ILogger<TransferMoneyKafkaProducer> _logger;
         private readonly IProducer<Null, string> _producer;
-        public TransferMoneyProducerKafka(ILogger<TransferMoneyProducerKafka> logger)
+        public TransferMoneyKafkaProducer(ILogger<TransferMoneyKafkaProducer> logger)
         {
             _logger = logger;
             var config = new ProducerConfig()
@@ -27,6 +26,7 @@ namespace TransferMoney.Service.Services
 
         public async Task SendMessageToKafka(TransferEntity transfer)
         {
+            _logger.LogInformation("Sending the message to kafka topic");
             try
             {
                 var transferInformation = JsonConvert.SerializeObject(transfer);

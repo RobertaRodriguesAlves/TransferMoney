@@ -4,10 +4,10 @@ namespace TransferMoney.Domain.DTO
 {
     public class TransferDto
     {
-        [Required(ErrorMessage = "Account origin is required")]
+        [Required(ErrorMessage = "AccountOrigin is required")]
         public string AccountOrigin { get; set; }
 
-        [Required(ErrorMessage = "Account destination is required")]
+        [Required(ErrorMessage = "AccountDestination is required")]
         public string AccountDestination { get; set; }
 
         [Required(ErrorMessage = "Value of transfer is required")]

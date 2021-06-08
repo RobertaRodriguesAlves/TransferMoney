@@ -59,7 +59,7 @@ namespace TranferMoney.KafkaConsumerApplication
             catch (Exception ex)
             {
                 await StopAsync(cancellationToken);
-                _logger.LogError($"Exceção: {ex.GetType().FullName} | Mensagem: {ex.Message}");
+                _logger.LogError($"Exception: {ex.GetType().FullName} | Message: {ex.Message}");
             }
         }
         public Task StopAsync(CancellationToken cancellationToken)

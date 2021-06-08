@@ -22,7 +22,7 @@ namespace TransferMoney.Service.Services
         }
         public async Task<FullResponseDto> MakesAccountOperation(TransferEntity transfer)
         {
-            _logger.LogInformation("Starting the accounts verification");
+            _logger.LogInformation("Starting the accounts validation");
             var fullresponse = new FullResponseDto();
 
             try
@@ -33,7 +33,7 @@ namespace TransferMoney.Service.Services
                 {
                     fullresponse.Status = "Error";
                     fullresponse.Message = "AccountOrigin doesn't exist";
-                    _logger.LogError($"{fullresponse.Status} - {fullresponse.Message}");
+                    _logger.LogWarning($"{fullresponse.Status} - {fullresponse.Message}");
                     return fullresponse;
                 }
 
@@ -43,7 +43,7 @@ namespace TransferMoney.Service.Services
                 {
                     fullresponse.Status = "Error";
                     fullresponse.Message = "AccountDestination doesn't exist";
-                    _logger.LogError($"{fullresponse.Status} - {fullresponse.Message}");
+                    _logger.LogWarning($"{fullresponse.Status} - {fullresponse.Message}");
                     return fullresponse;
                 }
 
@@ -59,7 +59,7 @@ namespace TransferMoney.Service.Services
                 {
                     fullresponse.Status = "Error";
                     fullresponse.Message = "AccountOrigin doesn't have enough money";
-                    _logger.LogError($"{fullresponse.Status} - {fullresponse.Message}");
+                    _logger.LogWarning($"{fullresponse.Status} - {fullresponse.Message}");
                     return fullresponse;
                 }
             }
@@ -70,13 +70,14 @@ namespace TransferMoney.Service.Services
                 _logger.LogError($"{fullresponse.Status} - {fullresponse.Message}");
             }
 
-            _logger.LogInformation("Finishing the accounts verification");
+            _logger.LogInformation("Finishing the accounts validation");
             return fullresponse;
         }
 
         private static void MakesCreditAndDebitOperation(TransferEntity transfer)
         {
-            for (int count = 0; count < 2; count++)
+            byte numberOfOperations = 2;
+            for (int count = 0; count < numberOfOperations; count++)
             {
                 OperationDto operation = FillObjectToSerialize(transfer, count);
                 string requestUri = "https://acessoaccount.herokuapp.com/api/Account";
