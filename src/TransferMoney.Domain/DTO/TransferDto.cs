@@ -11,6 +11,7 @@ namespace TransferMoney.Domain.DTO
         public string AccountDestination { get; set; }
 
         [Required(ErrorMessage = "Value of transfer is required")]
+        [RegularExpression(@"^[0-9]{1,9}(?:.[0-9]{1,2})?$", ErrorMessage = "Value must be positive")]
         public double Value { get; set; }
     }
 }

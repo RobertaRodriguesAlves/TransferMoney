@@ -10,7 +10,7 @@ namespace TransferMoney.CrossCutting.DependencyInjection
         {
             serviceCollection.AddTransient<IAccountInformationService, AccountInformationService>();
             serviceCollection.AddTransient<IFundTransferService, FundTransferService>();
-            serviceCollection.AddTransient<ITransferMoneyProducerKafka, TransferMoneyKafkaProducer>();
+            serviceCollection.AddSingleton<ITransferMoneyProducerKafka, TransferMoneyKafkaProducer>();
         }
     }
 }
